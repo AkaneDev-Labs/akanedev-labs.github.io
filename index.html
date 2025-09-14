@@ -67,6 +67,10 @@
 
       if (distance < 0) {
         document.getElementById('CountDown').innerHTML = "Launched!";
+        // after 1 minute refresh the page
+        setTimeout(() => {
+          location.reload();
+        }, 60000);
         clearInterval(interval);
         return;
       }
