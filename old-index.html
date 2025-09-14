@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AkaneDev Labs — games, engines, and professional software. Coming soon.">
+  <title>AkaneDev Labs — Coming Soon</title>
+  <link rel="icon" href="/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Open Graph / Discord Embed -->
+  <meta property="og:title" content="AkaneDev Labs — Coming Soon">
+  <meta property="og:description" content="AkaneDev Labs is launching soon. Stay tuned!">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://labs.akanedev.au">
+  <meta property="og:image" content="/preview.png"> <!-- replace with your own hosted image -->
+  <meta property="og:image:alt" content="AkaneDev Labs Logo">
+
+  <!-- Twitter Card (optional, shows better on X/Twitter) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AkaneDev Labs — Coming Soon">
+  <meta name="twitter:description" content="AkaneDev Labs is launching soon. Stay tuned!">
+  <meta name="twitter:image" content="/preview.png"> <!-- replace with your own hosted image -->
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+  <div class="text-center space-y-6">
+    <h1 class="text-4xl md:text-6xl font-bold">AkaneDev Labs</h1>
+    <p class="text-lg md:text-xl text-slate-300">Labs is launching soon — stay tuned!</p>
+
+    <div id="CountDown" class="text-2xl md:text-3xl font-mono space-x-4">
+      <span class="font-bold">Launching In:</span>
+      <span id="months">00</span> months,
+      <span id="weeks">00</span> weeks,
+      <span id="days">00</span> days,
+      <span id="hours">00</span> hours,
+      <span id="minutes">00</span> minutes,
+      <span id="seconds">00</span> seconds
+    </div>
+    
+    <div class="flex justify-center space-x-4">
+      <a href="https://akanedev.au" 
+         class="px-4 py-2 bg-indigo-600 rounded-xl shadow hover:bg-indigo-500 transition">
+        Back to Main Site
+      </a>
+      <a href="mailto:labs@akanedev.au" 
+         class="px-4 py-2 bg-slate-700 rounded-xl shadow hover:bg-slate-600 transition">
+        Contact Me
+      </a>
+    </div>
+
+    <p class="text-sm text-slate-500">© 2025 AkaneDev Labs</p>
+  </div>
+
+  <script>
+    const launchDate = new Date("2025-11-15T00:00:00Z").getTime(); // Set your launch date here
+    const countdownElements = {
+      months: document.getElementById('months'),
+      weeks: document.getElementById('weeks'),
+      days: document.getElementById('days'),
+      hours: document.getElementById('hours'),
+      minutes: document.getElementById('minutes'),
+      seconds: document.getElementById('seconds')
+    };
+    // delete the elements that are equal to or less than 0
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = launchDate - now;
+
+      if (distance < 0) {
+        document.getElementById('CountDown').innerHTML = "Launched!";
+        // after 1 minute refresh the page
+        setTimeout(() => {
+          location.reload();
+        }, 60000);
+        clearInterval(interval);
+        return;
+      }
+
+      const months = Math.floor(distance / (1000 * 60 * 60 * 24 * 30));
+      const weeks = Math.floor((distance % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24 * 7));
+      const days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownElements.months.textContent = String(months).padStart(2, '0');
+      countdownElements.weeks.textContent = String(weeks).padStart(2, '0');
+      countdownElements.days.textContent = String(days).padStart(2, '0');
+      countdownElements.hours.textContent = String(hours).padStart(2, '0');
+      countdownElements.minutes.textContent = String(minutes).padStart(2, '0');
+      countdownElements.seconds.textContent = String(seconds).padStart(2, '0');
+
+      // Remove elements that are zero
+      if (months <= 0) countdownElements.months.parentElement.style.display = 'none';
+      if (weeks <= 0 && months <= 0) countdownElements.weeks.parentElement.style.display = 'none';
+      if (days <= 0 && weeks <= 0 && months <= 0) countdownElements.days.parentElement.style.display = 'none';
+    }
+    updateCountdown(); // initial call
+    const interval = setInterval(updateCountdown, 500);
+  </script>
+</body>
+</html>
