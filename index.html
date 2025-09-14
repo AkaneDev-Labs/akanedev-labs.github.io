@@ -25,6 +25,16 @@
   <div class="text-center space-y-6">
     <h1 class="text-4xl md:text-6xl font-bold">AkaneDev Labs</h1>
     <p class="text-lg md:text-xl text-slate-300">Labs is launching soon — stay tuned!</p>
+
+    <div id="CountDown" class="text-2xl md:text-3xl font-mono space-x-4">
+      <span class="font-bold">Launching In:</span>
+      <span id="months">00</span> months,
+      <span id="weeks">00</span> weeks,
+      <span id="days">00</span> days,
+      <span id="hours">00</span> hours,
+      <span id="minutes">00</span> minutes,
+      <span id="seconds">00</span> seconds
+    </div>
     
     <div class="flex justify-center space-x-4">
       <a href="https://akanedev.au" 
@@ -39,5 +49,49 @@
 
     <p class="text-sm text-slate-500">© 2025 AkaneDev Labs</p>
   </div>
+
+  <script>
+    const launchDate = new Date("2025-11-15T00:00:00Z").getTime(); // Set your launch date here
+    const countdownElements = {
+      months: document.getElementById('months'),
+      weeks: document.getElementById('weeks'),
+      days: document.getElementById('days'),
+      hours: document.getElementById('hours'),
+      minutes: document.getElementById('minutes'),
+      seconds: document.getElementById('seconds')
+    };
+    // delete the elements that are equal to or less than 0
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = launchDate - now;
+
+      if (distance < 0) {
+        document.getElementById('CountDown').innerHTML = "Launched!";
+        clearInterval(interval);
+        return;
+      }
+
+      const months = Math.floor(distance / (1000 * 60 * 60 * 24 * 30));
+      const weeks = Math.floor((distance % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24 * 7));
+      const days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownElements.months.textContent = String(months).padStart(2, '0');
+      countdownElements.weeks.textContent = String(weeks).padStart(2, '0');
+      countdownElements.days.textContent = String(days).padStart(2, '0');
+      countdownElements.hours.textContent = String(hours).padStart(2, '0');
+      countdownElements.minutes.textContent = String(minutes).padStart(2, '0');
+      countdownElements.seconds.textContent = String(seconds).padStart(2, '0');
+
+      // Remove elements that are zero
+      if (months <= 0) countdownElements.months.parentElement.style.display = 'none';
+      if (weeks <= 0 && months <= 0) countdownElements.weeks.parentElement.style.display = 'none';
+      if (days <= 0 && weeks <= 0 && months <= 0) countdownElements.days.parentElement.style.display = 'none';
+    }
+    updateCountdown(); // initial call
+    const interval = setInterval(updateCountdown, 500);
+  </script>
 </body>
 </html>
