@@ -1,2 +1,7 @@
 include:
   - .well-known
+
+title: AkaneDev Labs
+description: AkaneDev Labs — games, engines, and professional software.
+url: "https://labs.akanedev.au"
+baseurl: ""
