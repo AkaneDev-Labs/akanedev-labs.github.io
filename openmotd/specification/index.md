@@ -2,7 +2,7 @@
 layout: wiki
 title: Specification
 description: The OpenMOTD v1 protocol specification.
-wiki_title: Testing
+wiki_title: OpenMOTD
 wiki_root: /openmotd/
 sidebar:
   - title: Overview
