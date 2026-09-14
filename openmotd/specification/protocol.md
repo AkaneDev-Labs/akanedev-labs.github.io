@@ -4,6 +4,7 @@ title: Protocol
 description: Transport, framing, requests, responses, and versioning for OpenMOTD.
 wiki_title: OpenMOTD
 wiki_root: /openmotd/
+permalink: /openmotd/specification/protocol/
 sidebar:
   - title: Overview
     url: /openmotd/

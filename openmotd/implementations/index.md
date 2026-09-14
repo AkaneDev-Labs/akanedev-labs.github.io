@@ -4,6 +4,7 @@ title: Implementations
 description: Known OpenMOTD implementations and compatibility information.
 wiki_title: OpenMOTD
 wiki_root: /openmotd/
+permalink: /openmotd/implementations/
 sidebar:
   - title: Overview
     url: /openmotd/

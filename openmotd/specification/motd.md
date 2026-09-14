@@ -4,6 +4,7 @@ title: MOTD Format
 description: The JSON message format used by OpenMOTD v1.
 wiki_title: OpenMOTD
 wiki_root: /openmotd/
+permalink: /openmotd/specification/motd/
 sidebar:
   - title: Overview
     url: /openmotd/
