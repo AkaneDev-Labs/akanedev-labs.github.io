@@ -44,7 +44,19 @@
 <a href="{{ page.wiki_root | default: '/openmotd/' | relative_url }}" class="block text-xl font-bold mb-5 hover:text-indigo-400 transition">{{ page.wiki_title | default: 'Wiki' }}</a>
 <nav class="space-y-1 text-sm">
 {% for item in page.sidebar %}
-<a href="{{ item.url | relative_url }}" class="block px-3 py-2 rounded-lg {% if page.url == item.url %}bg-indigo-500/20 text-indigo-300{% else %}text-slate-300 hover:bg-slate-700 hover:text-white{% endif %} transition">{{ item.title }}</a>
+{% if item.divider %}
+<div class="flex items-center gap-2 px-3 pt-5 pb-2">
+    <div class="h-px flex-1 bg-slate-700"></div>
+    <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 whitespace-nowrap">
+        {{ item.divider }}
+    </span>
+    <div class="h-px flex-1 bg-slate-700"></div>
+</div>
+{% else %}
+<a href="{{ item.url | relative_url }}" class="block px-3 py-2 rounded-lg {% if page.url == item.url %}bg-indigo-500/20 text-indigo-300{% else %}text-slate-300 hover:bg-slate-700 hover:text-white{% endif %} transition">
+    {{ item.title }}
+</a>
+{% endif %}
 {% endfor %}
 </nav>
 </div>
