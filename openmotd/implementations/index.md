@@ -19,7 +19,7 @@ sidebar:
 ---
 
 
-This page will document OpenMOTD implementations as they become available.
+This page will document offically supported OpenMOTD implementations as they become available.
 
 ## Server Implementations
 
