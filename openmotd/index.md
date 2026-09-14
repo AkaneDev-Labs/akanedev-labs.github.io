@@ -17,8 +17,6 @@ sidebar:
     url: /openmotd/implementations/
 ---
 
-# OpenMOTD
-
 OpenMOTD is an open network protocol for providing dynamic server information to clients.
 
 The core purpose of **v1** is simple: a client asks a server for its current MOTD, and the server can return different information depending on its current state.
