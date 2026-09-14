@@ -55,7 +55,8 @@ A v1.5 client MAY include an identity object in its OpenMOTD request:
 ```json
 {
   "protocol": "openmotd",
-  "version": 1.5,
+  "version": 1,
+  "extension": ["v1.5"],
   "identity": {
     "username": "ExamplePlayer",
     "uuid": "00000000-0000-0000-0000-000000000000"
@@ -64,6 +65,32 @@ A v1.5 client MAY include an identity object in its OpenMOTD request:
 ```
 
 A v1 client that does not provide an identity MUST continue to be supported by v1.5 servers.
+
+### Extensions
+
+The `extension` field contains a list of OpenMOTD extensions supported or requested by the client.
+
+The value `v1.5` identifies the Identity Layer.
+
+A client MAY provide multiple extensions in the same request.
+
+A server that does not support a requested extension MUST ignore that extension and continue processing the request using the base protocol and any supported extensions.
+
+For example:
+
+```json
+{
+  "protocol": "openmotd",
+  "version": 1,
+  "extension": ["v1.5"],
+  "identity": {
+    "username": "ExamplePlayer",
+    "uuid": "00000000-0000-0000-0000-000000000000"
+  }
+}
+```
+
+A request without an `extension` field is treated as a standard v1 request.
 
 ### Incomplete Identity
 
