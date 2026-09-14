@@ -6,6 +6,7 @@ wiki_title: OpenMOTD
 wiki_root: /openmotd/
 permalink: /openmotd/specification/protocol/
 sidebar:
+  - divider: Main
   - title: Overview
     url: /openmotd/
   - title: Specification
@@ -16,9 +17,9 @@ sidebar:
     url: /openmotd/specification/motd/
   - title: Implementations
     url: /openmotd/implementations/
-  - title: The v1.5 Layers
+  - divider: The v1.5 Layers
   - title: Identity Layer
-    url: /openmotd/identitylayer
+    url: /openmotd/identitylayer/
 ---
 
 ## Transport

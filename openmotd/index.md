@@ -5,6 +5,7 @@ description: An open protocol for dynamic Minecraft server MOTDs.
 wiki_title: OpenMOTD
 wiki_root: /openmotd/
 sidebar:
+  - divider: Main
   - title: Overview
     url: /openmotd/
   - title: Specification
@@ -15,9 +16,9 @@ sidebar:
     url: /openmotd/specification/motd/
   - title: Implementations
     url: /openmotd/implementations/
-  - title: The v1.5 Layers
+  - divider: The v1.5 Layers
   - title: Identity Layer
-    url: /openmotd/identitylayer
+    url: /openmotd/identitylayer/
 ---
 
 OpenMOTD is an open network protocol for providing dynamic server information to clients.
