@@ -1,7 +1,7 @@
 ---
 layout: wiki
 title: Implementations
-description: Implementations and compatibility information for OpenMOTD.
+description: Known OpenMOTD implementations and compatibility information.
 wiki_title: OpenMOTD
 wiki_root: /openmotd/
 sidebar:
@@ -19,25 +19,21 @@ sidebar:
 
 # Implementations
 
-This page will document known OpenMOTD implementations.
+This page will document OpenMOTD implementations as they become available.
 
 ## Server Implementations
 
-Server implementations can be listed here once they are available.
+Server implementations can be listed here.
 
 ## Client Implementations
 
-Client implementations can be listed here once they are available.
+Client implementations can be listed here.
 
 ## Compatibility
 
-Implementations should state the highest OpenMOTD protocol version they support.
-
-For example:
+Implementations should state the highest OpenMOTD version they support.
 
 | Implementation | Type | Protocol |
-|---|---|---:|
+|---|---|---|
 | Example Server | Server | v1 |
 | Example Client | Client | v1 |
-
-Future implementations can be added as the ecosystem develops.

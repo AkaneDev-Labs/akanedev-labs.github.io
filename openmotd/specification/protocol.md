@@ -1,7 +1,7 @@
 ---
 layout: wiki
 title: Protocol
-description: OpenMOTD transport, versioning, compatibility, and protocol identification.
+description: Transport, framing, requests, responses, and versioning for OpenMOTD.
 wiki_title: OpenMOTD
 wiki_root: /openmotd/
 sidebar:
@@ -19,29 +19,32 @@ sidebar:
 
 # Protocol
 
-This page documents the protocol-level rules of OpenMOTD v1.
-
 ## Transport
 
-OpenMOTD v1 uses HTTP(S).
+OpenMOTD v1 uses TCP.
 
-An implementation exposes an endpoint that returns the OpenMOTD document.
+The protocol is independent of HTTP, HTTPS, web servers, and specific Minecraft server software.
 
-```text
-https://example.com/openmotd
-```
+## Request/Response
 
-The response MUST use JSON:
+Communication consists of one request followed by a response.
 
 ```text
-Content-Type: application/json
+Client → Server: Request
+Client ← Server: Response
 ```
 
-HTTPS SHOULD be used where available.
+## Framing
 
-## Protocol Identifier
+Each TCP message is framed with a 4-byte unsigned big-endian payload length followed by the JSON payload.
 
-Every response MUST contain:
+```text
+[ 4-byte payload length ][ JSON payload ]
+```
+
+This prevents implementations from relying on TCP packet boundaries.
+
+## Request
 
 ```json
 {
@@ -50,38 +53,35 @@ Every response MUST contain:
 }
 ```
 
-The `protocol` value is always `openmotd`.
+## Response
 
-The `version` value identifies the highest OpenMOTD protocol version implemented by the server.
-
-## Versioning
-
-OpenMOTD versions are additive.
-
-A newer version MUST retain the functionality of previous versions unless a future specification explicitly defines otherwise.
-
-```text
-v1
- ↓
-v2 = v1 + additions
- ↓
-v3 = v2 + additions
+```json
+{
+  "protocol": "openmotd",
+  "version": 1,
+  "motd": "Welcome!"
+}
 ```
 
-## Unknown Fields
+## Dynamic MOTDs
 
-Clients MUST ignore fields they do not understand.
+The server is responsible for choosing the response according to its current state.
 
-This allows newer servers to provide additional information without making older clients fail.
+The protocol does not prescribe a fixed set of states.
 
-## Optional Data
+A server can therefore implement states such as:
 
-Unless the specification marks a field as required, clients MUST be prepared for that field to be absent.
+- Online
+- Maintenance
+- Full
+- Starting
+- Event
+- Closed
 
-Servers SHOULD avoid returning meaningless placeholder values when an optional value is unavailable.
+without requiring a new protocol version.
 
 ## Compatibility
 
-A v1 client is only required to understand v1 fields.
+Clients MUST ignore unknown fields.
 
-A newer server MAY return additional fields, but the v1 fields MUST remain usable by a v1 client.
+Future protocol versions should add functionality rather than replacing the v1 model.

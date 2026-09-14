@@ -19,61 +19,65 @@ sidebar:
 
 # OpenMOTD v1
 
-**Status:** Draft
-**Protocol:** OpenMOTD
+**Status:** Draft  
+**Protocol:** OpenMOTD  
 **Version:** 1
 
 ## 1. Overview
 
-OpenMOTD is an open protocol for providing structured server information to clients.
+OpenMOTD is an open network protocol for providing dynamic server information to clients.
 
-OpenMOTD is designed to provide more information than a traditional Minecraft Server List Ping while remaining simple enough for lightweight clients and servers to implement.
+Version 1 defines the minimum protocol required for a compatible implementation.
 
-**Version 1 defines the minimum required feature set for OpenMOTD compatibility.**
+The primary purpose of v1 is to allow a client to request the server's current MOTD and receive a response selected according to the server's current state.
 
-## 2. Versioning
+## 2. Transport
 
-OpenMOTD uses additive protocol versioning.
+OpenMOTD v1 uses **TCP** as its transport.
 
-A server implementing a newer version of OpenMOTD MUST retain support for all functionality defined by previous versions unless a future specification explicitly states otherwise.
+It does not require HTTP, HTTPS, a web server, or any particular Minecraft server implementation.
 
-For example:
+TCP provides a broadly available transport while leaving the application protocol independent of the game host.
 
-```text
-v1
- ↓
-v2 = v1 + new features
- ↓
-v3 = v2 + new features
-```
+## 3. Communication
 
-An OpenMOTD v1 client MUST be able to process the v1-compatible portion of a response from a newer OpenMOTD server.
-
-## 3. Transport
-
-OpenMOTD v1 uses HTTP(S) as its transport.
-
-The server MUST expose an OpenMOTD endpoint.
-
-For example:
+OpenMOTD v1 uses a simple request/response model.
 
 ```text
-https://example.com/openmotd
+Client                         Server
+  │                              │
+  │──── OpenMOTD Request ───────>│
+  │                              │
+  │<──── OpenMOTD Response ──────│
+  │                              │
 ```
 
-Responses MUST use:
+The client sends a v1 request.
+
+The server determines its current state and returns the appropriate v1 response.
+
+## 4. TCP Framing
+
+TCP is a byte stream rather than a message protocol. Implementations therefore MUST use explicit message framing.
+
+Each message consists of:
 
 ```text
-Content-Type: application/json
+┌──────────────┬─────────────────────────┐
+│ Length       │ Payload                 │
+│ 4 bytes      │ N bytes                 │
+└──────────────┴─────────────────────────┘
 ```
 
-HTTPS SHOULD be used where available.
+The length field contains the size of the payload in bytes.
 
-## 4. Protocol Identification
+The payload is the JSON message.
 
-Every OpenMOTD response MUST identify itself as OpenMOTD and provide its protocol version.
+The length field SHOULD use unsigned 32-bit big-endian byte order.
 
-Example:
+## 5. Request
+
+A v1 request identifies the OpenMOTD protocol and requested version.
 
 ```json
 {
@@ -82,208 +86,92 @@ Example:
 }
 ```
 
+## 6. Response
+
+A valid v1 response contains the protocol, version, and current MOTD.
+
+```json
+{
+  "protocol": "openmotd",
+  "version": 1,
+  "motd": "Welcome to Example SMP!"
+}
+```
+
 The `protocol` field MUST contain `openmotd`.
 
-The `version` field MUST contain the integer protocol version implemented by the server.
+The `version` field MUST contain `1` for a v1 response.
 
-## 5. Server Information
+The `motd` field MUST contain a string.
 
-A v1 response MUST provide the basic identity of the server.
+## 7. Dynamic Responses
 
-Example:
+The server MAY return different MOTDs depending on its current state.
 
-```json
-{
-  "protocol": "openmotd",
-  "version": 1,
-
-  "server": {
-    "name": "Example Minecraft Server",
-    "description": "A Minecraft server running OpenMOTD."
-  }
-}
-```
-
-### `server.name`
-
-The human-readable name of the server.
-
-### `server.description`
-
-A human-readable description of the server.
-
-Both values MUST be strings.
-
-## 6. Server Address
-
-A server MAY provide its connection address.
-
-Example:
-
-```json
-{
-  "server": {
-    "name": "Example Minecraft Server",
-    "description": "A Minecraft server running OpenMOTD.",
-    "address": "play.example.com"
-  }
-}
-```
-
-The `address` field is a string containing the hostname or address clients can use to connect.
-
-A port MAY be included where necessary:
-
-```text
-play.example.com:25565
-```
-
-## 7. Player Information
-
-A v1 server MAY provide current player information.
-
-Example:
-
-```json
-{
-  "players": {
-    "online": 12,
-    "max": 100
-  }
-}
-```
-
-`online` MUST be a non-negative integer.
-
-`max` MUST be a positive integer representing the advertised maximum player capacity.
-
-If the server does not provide player information, the `players` object MAY be omitted.
-
-## 8. Server Icon
-
-A server MAY provide an icon.
-
-Example:
-
-```json
-{
-  "server": {
-    "name": "Example Minecraft Server",
-    "description": "A Minecraft server running OpenMOTD.",
-    "icon": "data:image/png;base64,..."
-  }
-}
-```
-
-The icon MUST be supplied as a data URI.
-
-PNG SHOULD be used.
-
-Clients MAY ignore the icon if they do not support displaying it.
-
-## 9. Links
-
-A server MAY provide links associated with the server.
-
-Example:
-
-```json
-{
-  "links": [
-    {
-      "name": "Website",
-      "url": "https://example.com"
-    },
-    {
-      "name": "Discord",
-      "url": "https://discord.gg/example"
-    }
-  ]
-}
-```
-
-Each link MUST contain:
-
-- `name` — human-readable link name
-- `url` — absolute URL
-
-Clients MAY choose which links they display.
-
-## 10. Complete Example
-
-A complete v1 response could look like:
+For example, during normal operation:
 
 ```json
 {
   "protocol": "openmotd",
   "version": 1,
-
-  "server": {
-    "name": "Example Minecraft Server",
-    "description": "A friendly Minecraft survival server.",
-    "address": "play.example.com",
-    "icon": "data:image/png;base64,..."
-  },
-
-  "players": {
-    "online": 42,
-    "max": 100
-  },
-
-  "links": [
-    {
-      "name": "Website",
-      "url": "https://example.com"
-    },
-    {
-      "name": "Discord",
-      "url": "https://discord.gg/example"
-    }
-  ]
+  "motd": "Welcome to Example SMP!"
 }
 ```
 
-## 11. Client Requirements
-
-An OpenMOTD v1 client MUST:
-
-1. Recognise the `openmotd` protocol identifier.
-2. Recognise protocol version `1`.
-3. Parse the JSON response.
-4. Read the `server.name` field.
-5. Read the `server.description` field.
-6. Gracefully handle optional fields.
-
-Clients MUST NOT assume that optional fields are present.
-
-For example, this is valid v1:
+During maintenance:
 
 ```json
 {
   "protocol": "openmotd",
   "version": 1,
-
-  "server": {
-    "name": "Minimal Server",
-    "description": "A minimal OpenMOTD server."
-  }
+  "motd": "The server is currently undergoing maintenance."
 }
 ```
 
-This represents the minimum valid OpenMOTD v1 response.
+When full:
 
-## 12. Unknown Fields
+```json
+{
+  "protocol": "openmotd",
+  "version": 1,
+  "motd": "The server is currently full."
+}
+```
+
+The protocol does not require the client to understand the server's internal state. The server simply provides the MOTD appropriate to that state.
+
+## 8. Minimum Implementation
+
+The smallest valid v1 response is:
+
+```json
+{
+  "protocol": "openmotd",
+  "version": 1,
+  "motd": "Hello, Minecraft!"
+}
+```
+
+No additional server information is required by v1.
+
+## 9. Unknown Fields
 
 Clients MUST ignore fields they do not recognise.
 
-Servers MAY include fields defined by future protocol versions, provided that doing so does not prevent a v1 client from processing the v1 fields.
+This allows future protocol versions to add information without breaking older clients.
 
-This allows the protocol to evolve without immediately breaking older clients.
+## 10. Versioning
 
-## 13. Compatibility
+OpenMOTD versions are additive.
 
-OpenMOTD v1 is the baseline protocol version.
+A v2 implementation MUST retain v1 functionality unless the v2 specification explicitly defines otherwise.
 
-Any future OpenMOTD protocol version MUST build upon v1 unless a future specification explicitly defines a breaking change.
+```text
+v1
+ ↓
+v2 = v1 + additions
+ ↓
+v3 = v2 + additions
+```
 
-A v2 implementation, for example, MUST retain all v1 functionality while adding the features defined by v2.
+This makes v1 the compatibility baseline for the OpenMOTD protocol.

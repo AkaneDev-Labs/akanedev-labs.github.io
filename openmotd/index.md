@@ -1,7 +1,7 @@
 ---
 layout: wiki
 title: OpenMOTD
-description: An open protocol for providing structured Minecraft server information.
+description: An open protocol for dynamic Minecraft server MOTDs.
 wiki_title: OpenMOTD
 wiki_root: /openmotd/
 sidebar:
@@ -19,44 +19,41 @@ sidebar:
 
 # OpenMOTD
 
-OpenMOTD is an open protocol for providing structured information about Minecraft servers.
+OpenMOTD is an open network protocol for providing dynamic server information to clients.
 
-It is designed to provide richer server information than a traditional Server List Ping while remaining simple enough for lightweight clients and servers to implement.
+The core purpose of **v1** is simple: a client asks a server for its current MOTD, and the server can return different information depending on its current state.
+
+A server can therefore provide different MOTDs for normal operation, maintenance, full capacity, startup, events, or any other state it chooses to represent.
 
 ## Protocol Versions
 
-OpenMOTD uses additive protocol versioning.
-
-Each new protocol version builds upon the previous version rather than replacing it.
+OpenMOTD uses additive versioning.
 
 ```text
 v1
  ↓
-v2 = v1 + new features
+v2 = v1 + additions
  ↓
-v3 = v2 + new features
+v3 = v2 + additions
 ```
 
-Version 1 is the baseline protocol. Future versions add functionality while retaining the functionality of previous versions unless a specification explicitly defines otherwise.
+A newer version retains the functionality of previous versions unless a future specification explicitly says otherwise.
 
-## Current Version
+## v1
 
-**OpenMOTD v1**
+Version 1 is intentionally minimal.
 
-v1 defines the minimum functionality required for an OpenMOTD implementation.
+It provides:
 
-[Read the v1 specification →](/openmotd/specification/)
-
-## Design Goals
-
-OpenMOTD is designed around several principles:
-
-- **Open** — the protocol is publicly documented.
-- **Simple** — the baseline should be easy to implement.
-- **Additive** — new versions should build upon older versions.
-- **Extensible** — clients should safely ignore information they do not understand.
-- **Minecraft-focused** — the protocol is intended for Minecraft server information.
+- TCP transport
+- Request/response communication
+- Protocol identification
+- Protocol version identification
+- A dynamic MOTD response
 
 ## Documentation
 
-Use the navigation on the left to explore the specification and implementation documentation.
+- [Specification →](/openmotd/specification/)
+- [Protocol →](/openmotd/specification/protocol/)
+- [MOTD Format →](/openmotd/specification/motd/)
+- [Implementations →](/openmotd/implementations/)

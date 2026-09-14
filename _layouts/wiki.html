@@ -1,133 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>{{ page.title }} — {{ site.title }}</title>
-    <meta name="description" content="{{ page.description | default: site.description }}">
-
-    <link rel="icon" href="{{ '/favicon.ico' | relative_url }}">
-
-    <style>
-        @font-face {
-            font-family: 'Duplexide';
-            src: url('{{ '/fonts/Duplexide.ttf' | relative_url }}') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        .font-duplexide {
-            font-family: 'Duplexide', sans-serif;
-        }
-
-        .wiki-content h2,
-        .wiki-content h3,
-        .wiki-content h4 {
-            scroll-margin-top: 7rem;
-        }
-
-        .wiki-content code {
-            overflow-wrap: anywhere;
-        }
-
-        .wiki-content pre {
-            overflow-x: auto;
-        }
-    </style>
-
-    <meta property="og:title" content="{{ page.title }} — {{ site.title }}">
-    <meta property="og:description" content="{{ page.description | default: site.description }}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ page.url | absolute_url }}">
-    <meta property="og:image" content="{{ '/preview.png' | absolute_url }}">
-    <meta property="og:image:alt" content="AkaneDev Labs Logo">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ page.title }} — {{ site.title }}">
-    <meta name="twitter:description" content="{{ page.description | default: site.description }}">
-    <meta name="twitter:image" content="{{ '/preview.png' | absolute_url }}">
-    <meta name="twitter:image:alt" content="AkaneDev Labs Logo">
-
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title }} — {{ site.title }}</title>
+<meta name="description" content="{{ page.description | default: site.description }}">
+<link rel="icon" href="{{ '/favicon.ico' | relative_url }}">
+<style>
+@font-face { font-family: 'Duplexide'; src: url('{{ '/fonts/Duplexide.ttf' | relative_url }}') format('truetype'); }
+.font-duplexide { font-family: 'Duplexide', sans-serif; }
+.wiki-content h2,.wiki-content h3,.wiki-content h4 { scroll-margin-top: 7rem; }
+.wiki-content pre { overflow-x: auto; }
+</style>
+<meta property="og:title" content="{{ page.title }} — {{ site.title }}">
+<meta property="og:description" content="{{ page.description | default: site.description }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+<meta property="og:image" content="{{ '/preview.png' | absolute_url }}">
+<meta property="og:image:alt" content="AkaneDev Labs Logo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page.title }} — {{ site.title }}">
+<meta name="twitter:description" content="{{ page.description | default: site.description }}">
+<meta name="twitter:image" content="{{ '/preview.png' | absolute_url }}">
+<meta name="twitter:image:alt" content="AkaneDev Labs Logo">
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="min-h-screen flex flex-col bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
-
 <header class="sticky top-0 bg-slate-900/90 backdrop-blur z-50 shadow">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="{{ '/' | relative_url }}" class="text-2xl md:text-3xl font-bold tracking-tight font-duplexide hover:text-indigo-400 transition">
-            AkaneDev Labs
-        </a>
-
-        <nav class="hidden md:flex space-x-8 text-slate-300 text-sm font-medium">
-            <a href="{{ '/' | relative_url }}" class="hover:text-indigo-400 transition">Home</a>
-            <a href="{{ '/about.html' | relative_url }}" class="hover:text-indigo-400 transition">About</a>
-            <a href="{{ '/contact.html' | relative_url }}" class="hover:text-indigo-400 transition">Contact</a>
-            <a href="https://akanedev.au" class="hover:text-indigo-400 transition">Personal Site</a>
-        </nav>
-    </div>
+<div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+<a href="{{ '/' | relative_url }}" class="text-2xl md:text-3xl font-bold tracking-tight font-duplexide hover:text-indigo-400 transition">AkaneDev Labs</a>
+<nav class="hidden md:flex space-x-8 text-slate-300 text-sm font-medium">
+<a href="{{ '/' | relative_url }}" class="hover:text-indigo-400 transition">Home</a>
+<a href="{{ '/about.html' | relative_url }}" class="hover:text-indigo-400 transition">About</a>
+<a href="{{ '/contact.html' | relative_url }}" class="hover:text-indigo-400 transition">Contact</a>
+<a href="https://akanedev.au" class="hover:text-indigo-400 transition">Personal Site</a>
+</nav>
+</div>
 </header>
-
 <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-10">
-    <div class="grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8">
-
-        <aside class="lg:sticky lg:top-24 lg:self-start">
-            <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 shadow">
-                <a href="{{ page.wiki_root | default: '/openmotd/' | relative_url }}"
-                   class="block text-xl font-bold font-duplexide mb-5 hover:text-indigo-400 transition">
-                    {{ page.wiki_title | default: 'Wiki' }}
-                </a>
-
-                <nav class="space-y-1 text-sm">
-                    {% for item in page.sidebar %}
-                    <a href="{{ item.url | relative_url }}"
-                       class="block px-3 py-2 rounded-lg {% if page.url == item.url %}bg-indigo-500/20 text-indigo-300{% else %}text-slate-300 hover:bg-slate-700 hover:text-white{% endif %} transition">
-                        {{ item.title }}
-                    </a>
-                    {% endfor %}
-                </nav>
-            </div>
-        </aside>
-
-        <article class="min-w-0">
-            <header class="mb-8">
-                <p class="text-sm text-indigo-400 font-medium mb-2">OpenMOTD Documentation</p>
-                <h1 class="text-4xl md:text-5xl font-extrabold mb-4">{{ page.title }}</h1>
-
-                {% if page.description %}
-                <p class="text-lg text-slate-300 max-w-3xl">
-                    {{ page.description }}
-                </p>
-                {% endif %}
-            </header>
-
-            <div class="wiki-content bg-slate-800/80 border border-slate-700 rounded-2xl shadow p-6 md:p-10
-                        [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:mt-10 [&_h2]:mb-4
-                        [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:mt-8 [&_h3]:mb-3
-                        [&_h4]:text-xl [&_h4]:font-semibold [&_h4]:mt-6 [&_h4]:mb-2
-                        [&_p]:text-slate-300 [&_p]:leading-7 [&_p]:mb-5
-                        [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ul]:text-slate-300
-                        [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-5 [&_ol]:text-slate-300
-                        [&_li]:mb-2
-                        [&_a]:text-indigo-400 [&_a]:hover:text-indigo-300 [&_a]:hover:underline
-                        [&_strong]:text-white
-                        [&_code]:bg-slate-950 [&_code]:text-indigo-300 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded
-                        [&_pre]:bg-slate-950 [&_pre]:border [&_pre]:border-slate-700 [&_pre]:rounded-xl [&_pre]:p-5 [&_pre]:mb-6
-                        [&_pre_code]:bg-transparent [&_pre_code]:p-0
-                        [&_table]:w-full [&_table]:mb-6 [&_table]:text-left
-                        [&_th]:bg-slate-900 [&_th]:p-3 [&_th]:border [&_th]:border-slate-700
-                        [&_td]:p-3 [&_td]:border [&_td]:border-slate-700 [&_td]:text-slate-300">
-                {{ content }}
-            </div>
-        </article>
-    </div>
+<div class="grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8">
+<aside class="lg:sticky lg:top-24 lg:self-start">
+<div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 shadow">
+<a href="{{ page.wiki_root | default: '/openmotd/' | relative_url }}" class="block text-xl font-bold font-duplexide mb-5 hover:text-indigo-400 transition">{{ page.wiki_title | default: 'Wiki' }}</a>
+<nav class="space-y-1 text-sm">
+{% for item in page.sidebar %}
+<a href="{{ item.url | relative_url }}" class="block px-3 py-2 rounded-lg {% if page.url == item.url %}bg-indigo-500/20 text-indigo-300{% else %}text-slate-300 hover:bg-slate-700 hover:text-white{% endif %} transition">{{ item.title }}</a>
+{% endfor %}
+</nav>
+</div>
+</aside>
+<article class="min-w-0">
+<header class="mb-8">
+<p class="text-sm text-indigo-400 font-medium mb-2">OpenMOTD Documentation</p>
+<h1 class="text-4xl md:text-5xl font-extrabold mb-4">{{ page.title }}</h1>
+{% if page.description %}<p class="text-lg text-slate-300 max-w-3xl">{{ page.description }}</p>{% endif %}
+</header>
+<div class="wiki-content bg-slate-800/80 border border-slate-700 rounded-2xl shadow p-6 md:p-10 [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:mt-8 [&_h3]:mb-3 [&_h4]:text-xl [&_h4]:font-semibold [&_h4]:mt-6 [&_h4]:mb-2 [&_p]:text-slate-300 [&_p]:leading-7 [&_p]:mb-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ul]:text-slate-300 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-5 [&_ol]:text-slate-300 [&_li]:mb-2 [&_a]:text-indigo-400 [&_a]:hover:text-indigo-300 [&_a]:hover:underline [&_strong]:text-white [&_code]:bg-slate-950 [&_code]:text-indigo-300 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_pre]:bg-slate-950 [&_pre]:border [&_pre]:border-slate-700 [&_pre]:rounded-xl [&_pre]:p-5 [&_pre]:mb-6 [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_table]:w-full [&_table]:mb-6 [&_th]:bg-slate-900 [&_th]:p-3 [&_th]:border [&_th]:border-slate-700 [&_td]:p-3 [&_td]:border [&_td]:border-slate-700 [&_td]:text-slate-300">
+{{ content }}
+</div>
+</article>
+</div>
 </main>
-
 <footer class="bg-slate-900 border-t border-slate-800 py-6 text-center text-sm text-slate-400">
-    <p>&copy; {{ site.time | date: "%Y" }} AkaneDev Labs. All rights reserved.</p>
-    <p class="mt-2">Built with ♥ by AkaneDev</p>
+<p>&copy; {{ site.time | date: "%Y" }} AkaneDev Labs. All rights reserved.</p>
+<p class="mt-2">Built with ♥ by AkaneDev</p>
 </footer>
-
 </body>
 </html>
