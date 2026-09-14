@@ -18,7 +18,6 @@ sidebar:
     url: /openmotd/implementations/
 ---
 
-# Implementations
 
 This page will document OpenMOTD implementations as they become available.
 

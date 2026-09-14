@@ -18,8 +18,6 @@ sidebar:
     url: /openmotd/implementations/
 ---
 
-# Protocol
-
 ## Transport
 
 OpenMOTD v1 uses TCP.

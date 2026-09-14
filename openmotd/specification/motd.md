@@ -18,7 +18,6 @@ sidebar:
     url: /openmotd/implementations/
 ---
 
-# MOTD Format
 
 OpenMOTD v1 messages use JSON.
 
