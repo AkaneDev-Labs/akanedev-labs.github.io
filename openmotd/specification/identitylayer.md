@@ -55,7 +55,7 @@ A v1.5 client MAY include an identity object in its OpenMOTD request:
 ```json
 {
   "protocol": "openmotd",
-  "version": 1,
+  "version": 1.5,
   "identity": {
     "username": "ExamplePlayer",
     "uuid": "00000000-0000-0000-0000-000000000000"
