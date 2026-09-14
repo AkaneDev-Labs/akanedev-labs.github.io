@@ -15,6 +15,11 @@ sidebar:
     url: /openmotd/specification/motd/
   - title: Implementations
     url: /openmotd/implementations/
+  - title: Identity Layer
+    url: /openmotd/identitylayer
+  - title: The v1.5 Layers
+  - title: Identity Layer
+    url: /openmotd/identitylayer
 ---
 
 # OpenMOTD v1

@@ -15,6 +15,9 @@ sidebar:
     url: /openmotd/specification/motd/
   - title: Implementations
     url: /openmotd/implementations/
+  - title: The v1.5 Layers
+  - title: Identity Layer
+    url: /openmotd/identitylayer
 ---
 
 OpenMOTD is an open network protocol for providing dynamic server information to clients.
