@@ -1,11 +1,21 @@
+---
+layout: null
+title: AkaneDev Labs
+description: AkaneDev Labs — games, engines, professional software, and developer-focused publishing services.
+---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AkaneDev Labs — games, engines, and professional software.">
-    <title>AkaneDev Labs</title>
+
+    <meta name="description" content="{{ page.description }}">
+
+    <title>{{ page.title }}</title>
+
     <link rel="icon" href="/favicon.ico">
+
     <style>
         @font-face {
             font-family: 'Duplexide';
@@ -13,32 +23,41 @@
             font-weight: normal;
             font-style: normal;
         }
+
         .font-duplexide {
             font-family: 'Duplexide', sans-serif;
         }
     </style>
-    <!-- open graph -->
-    <meta property="og:title" content="AkaneDev Labs">
-    <meta property="og:description" content="AkaneDev Labs builds cutting-edge engines, immersive games, in addition to providing Publishing for Games, Mods and more with a focus on the Developers.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:description" content="{{ page.description }}">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://labs.akanedev.au">
-    <meta property="og:image" content="/preview.png"> 
+    <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}">
+    <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/Preview.png">
     <meta property="og:image:alt" content="AkaneDev Labs Logo">
-    <!-- Twitter Card (optional, shows better on X/Twitter) -->
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:title" content="AkaneDev Labs">
-      <meta name="twitter:description" content="AkaneDev Labs builds cutting-edge engines, immersive games, in addition to providing Publishing for Games, Mods and more with a focus on the Developers.">
-    <meta name="twitter:image" content="/preview.png">
+    <meta name="twitter:title" content="{{ page.title }}">
+    <meta name="twitter:description" content="{{ page.description }}">
+    <meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}/Preview.png">
     <meta name="twitter:image:alt" content="AkaneDev Labs Logo">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="min-h-screen flex flex-col bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
-  
+
   <!-- Navbar -->
   <header class="fixed top-0 left-0 right-0 bg-slate-900/80 backdrop-blur z-50 shadow">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <h1 class="text-2xl md:text-3xl font-bold tracking-tight font-duplexide">AkaneDev Labs</h1>
+
+      <h1 class="text-2xl md:text-3xl font-bold tracking-tight font-duplexide">
+        AkaneDev Labs
+      </h1>
+
       <nav class="hidden md:flex space-x-8 text-slate-300 text-sm font-medium">
         <a href="/" class="hover:text-indigo-400 transition">Home</a>
         <a href="/about.html" class="hover:text-indigo-400 transition">About</a>
@@ -46,70 +65,160 @@
         <a href="https://akanedev.au" class="hover:text-indigo-400 transition">Personal Site</a>
         <a href="/computing/index.html" class="hover:text-indigo-400 transition">Computing</a>
       </nav>
+
     </div>
   </header>
 
+
   <!-- Hero -->
   <section class="flex flex-col justify-center items-center text-center pt-32 pb-20 px-6">
-    <h2 class="text-4xl md:text-6xl font-extrabold mb-6">Innovating Games & Software</h2>
+
+    <h2 class="text-4xl md:text-6xl font-extrabold mb-6">
+      Innovating Games & Software
+    </h2>
+
     <p class="text-lg md:text-xl text-slate-300 max-w-2xl">
-      AkaneDev Labs builds cutting-edge engines, immersive games, in addition to providing Publishing for Games, Mods and more with a focus on the Developers.
+      AkaneDev Labs builds cutting-edge engines, immersive games,
+      and developer-focused software and publishing services.
     </p>
+
   </section>
 
-  <!-- Projects -->
-  <main id="projects" class="flex-1 max-w-7xl mx-auto px-6 pb-20">
-    <h3 class="text-2xl font-semibold mb-8 border-b border-slate-700 pb-2">Featured Projects</h3>
+
+  <!-- Products -->
+  <main id="products" class="max-w-7xl mx-auto w-full px-6 pb-20">
+
+    <h3 class="text-2xl font-semibold mb-8 border-b border-slate-700 pb-2">
+      Services & Products
+    </h3>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- Example Project Card -->
+
+      {% for product in site.products %}
+
+        <div class="bg-slate-800 p-6 rounded-2xl shadow hover:shadow-xl hover:scale-[1.02] transition">
+
+          {% if product.category %}
+            <p class="text-indigo-400 text-sm font-medium mb-2">
+              {{ product.category }}
+            </p>
+          {% endif %}
+
+          <h4 class="text-xl font-semibold mb-2">
+            {{ product.title }}
+          </h4>
+
+          {% if product.description %}
+            <p class="text-slate-400 mb-4">
+              {{ product.description }}
+            </p>
+          {% endif %}
+
+          {% if product.price %}
+            <p class="text-white font-semibold mb-4">
+              {{ product.price }}
+            </p>
+          {% endif %}
+
+          <a
+            href="{{ product.url | relative_url }}"
+            class="inline-block text-indigo-400 font-medium hover:underline"
+          >
+            Learn More →
+          </a>
+
+        </div>
+
+      {% endfor %}
+
+    </div>
+
+  </main>
+
+
+  <!-- Projects -->
+  <main id="projects" class="max-w-7xl mx-auto w-full px-6 pb-20">
+
+    <h3 class="text-2xl font-semibold mb-8 border-b border-slate-700 pb-2">
+      Featured Projects
+    </h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Existing HTML projects remain completely untouched -->
+
       <div class="bg-slate-800 p-6 rounded-2xl shadow hover:shadow-xl hover:scale-[1.02] transition">
         <h4 class="text-xl font-semibold mb-2">Panic Engine</h4>
-        <p class="text-slate-400 mb-4">A lightweight 2D game engine built for rapid development and easy adoption.</p>
-        <a href="/projects/PanicEngine/index.html" class="inline-block text-indigo-400 font-medium hover:underline">Learn More →</a>
+        <p class="text-slate-400 mb-4">
+          A lightweight 2D game engine built for rapid development and easy adoption.
+        </p>
+        <a href="/projects/PanicEngine/index.html"
+           class="inline-block text-indigo-400 font-medium hover:underline">
+          Learn More →
+        </a>
       </div>
-      <!-- Duplicate / Replace with real projects -->
+
       <div class="bg-slate-800 p-6 rounded-2xl shadow hover:shadow-xl hover:scale-[1.02] transition">
         <h4 class="text-xl font-semibold mb-2">Labs Engine</h4>
-        <p class="text-slate-400 mb-4">A powerful and flexible engine for creating immersive 3D experiences.</p>
-        <a href="/projects/LabsEngine/index.html" class="inline-block text-indigo-400 font-medium hover:underline">Learn More →</a>
+        <p class="text-slate-400 mb-4">
+          A powerful and flexible engine for creating immersive 3D experiences.
+        </p>
+        <a href="/projects/LabsEngine/index.html"
+           class="inline-block text-indigo-400 font-medium hover:underline">
+          Learn More →
+        </a>
       </div>
 
       <div class="bg-slate-800 p-6 rounded-2xl shadow hover:shadow-xl hover:scale-[1.02] transition">
         <h4 class="text-xl font-semibold mb-2">1.12.2 C++ Mc Server</h4>
-        <p class="text-slate-400 mb-4">A recreation of the 1.12.2 server jar in C++.</p>
-        <a href="/projects/MCCppServer/index.html" class="inline-block text-indigo-400 font-medium hover:underline">Learn More →</a>
+        <p class="text-slate-400 mb-4">
+          A recreation of the 1.12.2 server jar in C++.
+        </p>
+        <a href="/projects/MCCppServer/index.html"
+           class="inline-block text-indigo-400 font-medium hover:underline">
+          Learn More →
+        </a>
       </div>
+
       <div class="bg-slate-800 p-6 rounded-2xl shadow hover:shadow-xl hover:scale-[1.02] transition">
         <h4 class="text-xl font-semibold mb-2">W.A.N.D. Project Mods</h4>
-        <p class="text-slate-400 mb-4">A collection of Mods made by AkaneDev for the game called W.A.N.D. Project.</p>
-        <a href="/projects/WANDProjectMods/index.html" class="inline-block text-indigo-400 font-medium hover:underline">Learn More →</a>
+        <p class="text-slate-400 mb-4">
+          A collection of Mods made by AkaneDev for W.A.N.D. Project.
+        </p>
+        <a href="/projects/WANDProjectMods/index.html"
+           class="inline-block text-indigo-400 font-medium hover:underline">
+          Learn More →
+        </a>
       </div>
+
       <div class="bg-slate-800 p-6 rounded-2xl shadow hover:shadow-xl hover:scale-[1.02] transition">
         <h4 class="text-xl font-semibold mb-2">OpenMOTD</h4>
-        <p class="text-slate-400 mb-4">A Custom MOTD (Message Of The Day) Protocol for use by all Servers, created for Minecraft, adaptable to any </p>
-        <a href="/openmotd" class="inline-block text-indigo-400 font-medium hover:underline">Learn More →</a>
+        <p class="text-slate-400 mb-4">
+          A custom MOTD protocol created for Minecraft and adaptable to other applications.
+        </p>
+        <a href="/openmotd"
+           class="inline-block text-indigo-400 font-medium hover:underline">
+          Learn More →
+        </a>
       </div>
 
     </div>
+
   </main>
 
-  <!-- Research Tests -->
-  <!-- <main id="tests" class="flex-1 max-w-7xl mx-auto px-6 pb-20">
-    <h3 class="text-2xl font-semibold mb-8 border-b border-slate-700 pb-2">Experiments</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div class="bg-slate-800 p-6 rounded-2xl shadow hover:shadow-xl hover:scale-[1.02] transition">
-        <h4 class="text-xl font-semibold mb-2">Render Swarm - Research Test 01</h4>
-        <p class="text-slate-400 mb-4">An experimental use of WASM to render 3D scenes via donating CPU power.</p>
-        <a href="/research/RenderSwarm/index.html" class="inline-block text-indigo-400 font-medium hover:underline">Observe?</a>
-      </div>
-    </div>
-  </main> -->
 
   <!-- Footer -->
   <footer class="fixed bottom-0 left-0 right-0 bg-slate-900/80 backdrop-blur z-50 shadow border-t border-slate-800 py-4 text-center text-sm text-slate-400">
-    <p>&copy; 2026 AkaneDev Labs. All rights reserved.</p>
-    <p class="mt-1">Built with ♥ by AkaneDev</p>
+
+    <p>
+      &copy; {{ site.time | date: "%Y" }} AkaneDev Labs. All rights reserved.
+    </p>
+
+    <p class="mt-1">
+      Built with ♥ by AkaneDev
+    </p>
+
   </footer>
-  
+
 </body>
 </html>

@@ -5,3 +5,8 @@ title: AkaneDev Labs
 description: AkaneDev Labs — games, engines, and professional software.
 url: "https://labs.akanedev.au"
 baseurl: ""
+
+collections:
+  products:
+    output: true
+    permalink: /products/:name/
