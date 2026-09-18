@@ -37,10 +37,24 @@ You make the mod. **We handle the publishing.**
 
 For every mod we publish, we use the platform's **built-in rewards programme** to provide a simple **25/75 revenue split**.
 
-**75% goes to you.**  
+**75% goes to you.**
+
 **25% goes to us.**
 
 This applies to eligible revenue generated through the platform's own rewards programme.
+
+## Single Year Contract
+
+The publishing arrangement lasts for **one year per mod**.
+
+The service costs **$20 AUD per mod**, and the one-year term begins when the publishing service starts.
+
+Once the one-year term ends, you can either:
+
+- Continue using our publishing service, or
+- Cancel the arrangement and manage the mod's publishing yourself.
+
+There is no requirement to continue with us after the initial one-year term.
 
 ## Requirements
 
