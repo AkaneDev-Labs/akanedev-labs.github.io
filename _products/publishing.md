@@ -35,7 +35,7 @@ You make the mod. **We handle the publishing.**
 
 ## Revenue Split
 
-For every mod we publish, we use the platform's **built-in rewards programme** to provide a simple **25/75 revenue split**.
+For every mod we publish, we use the platform's **built-in rewards programme** to provide a simple **25/75 revenue split per Platform**.
 
 **75% goes to you.**
 
