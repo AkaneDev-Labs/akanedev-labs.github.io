@@ -1,5 +1,5 @@
 (() => {
-    const CHECK_INTERVAL = 1_000;
+    const CHECK_INTERVAL = 20_000;
     const VERSION_URL = "/version.json";
     const CHANNEL_NAME = "akanedev-site-updates";
 
