@@ -55,7 +55,7 @@ It provides:
 
 ## Documentation
 
-- [Specification →](/openmotd/specification/)
-- [Protocol →](/openmotd/specification/protocol/)
-- [MOTD Format →](/openmotd/specification/motd/)
-- [Implementations →](/openmotd/implementations/)
+- [Specification →](/Old%20Site/openmotdte/openmotd/specification)
+- [Protocol →](/Old%20Site/openmotd/specification/protocol/)
+- [MOTD Format →](/Old%20Site/openmotd/specification/motd/)
+- [Implementations →](/Old%20Site/openmotdte/openmotd/implementations)
