@@ -27,6 +27,7 @@
     }
 
     async function checkForUpdates() {
+        console.log("[Site Updates] Checking for updates...");
         try {
             const response = await fetch(
                 `${VERSION_URL}?_=${Date.now()}`,
@@ -34,8 +35,6 @@
             );
 
             if (!response.ok) return;
-
-            console.log("Checking for updates...");
 
             const data = await response.json();
 
@@ -45,7 +44,7 @@
             }
 
             if (data.build !== currentVersion) {
-                console.log("Site Updated Found!")
+                console.log("[Site Updates] Site update detected!");
                 channel?.postMessage({
                     type: "site-update",
                     version: data.build
