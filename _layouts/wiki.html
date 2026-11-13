@@ -1,0 +1,55 @@
+---
+layout: default
+---
+
+<div class="wiki-layout">
+
+    <aside class="wiki-sidebar">
+        <a
+                href="{{ page.wiki_root | default: '/openmotd/' | relative_url }}"
+                class="wiki-sidebar-title"
+        >
+            {{ page.wiki_title | default: "Wiki" }}
+        </a>
+
+        <nav class="wiki-navigation">
+            {% for item in page.sidebar %}
+            {% if item.divider %}
+            <div class="wiki-nav-divider">
+                {{ item.divider }}
+            </div>
+            {% else %}
+            <a
+                    href="{{ item.url | relative_url }}"
+                    class="wiki-nav-link {% if page.url == item.url %}active{% endif %}"
+            >
+                {{ item.title }}
+            </a>
+            {% endif %}
+            {% endfor %}
+        </nav>
+    </aside>
+
+    <article class="wiki-article">
+
+        <header class="wiki-header">
+            <p class="wiki-eyebrow">
+                {{ page.wiki_title | default: "Wiki" }} Documentation
+            </p>
+
+            <h1>{{ page.title }}</h1>
+
+            {% if page.description %}
+            <p class="wiki-description">
+                {{ page.description }}
+            </p>
+            {% endif %}
+        </header>
+
+        <div class="wiki-content">
+            {{ content }}
+        </div>
+
+    </article>
+
+</div>

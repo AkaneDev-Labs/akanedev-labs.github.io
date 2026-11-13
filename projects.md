@@ -33,7 +33,7 @@ eyebrow: WHAT WE'RE WORKING ON
                 </div>
 
                 <span class="project-entry-arrow" aria-hidden="true">
-                    →
+                    View →
                 </span>
 
             </a>

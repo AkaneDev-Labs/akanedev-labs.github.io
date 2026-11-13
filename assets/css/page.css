@@ -1,0 +1,13 @@
+a.project-entry,
+a.project-entry *,
+a.project-entry:hover,
+a.project-entry:hover * {
+    text-decoration: none !important;
+}
+
+span.project-entry-arrow,
+span.project-entry-arrow *,
+span.project-entry-arrow:hover,
+span.project-entry-arrow:hover * {
+    text-decoration: underline !important;
+}

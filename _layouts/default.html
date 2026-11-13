@@ -15,7 +15,15 @@
     <meta name="description" content="{{ page.description | default: site.description | escape }}">
     <meta name="author" content="AkaneDevLabs">
     <meta name="theme-color" content="#09090b">
-
+    <!-- extra html -->
+    {% assign page_layout = page.layout | default: "default" %}
+    {% unless page_layout == "default" or page_layout == "site" %}
+        <link
+                rel="stylesheet"
+                href="{{ '/assets/css/' | append: page_layout | append: '.css' | relative_url }}"
+        >
+    {% endunless %}
+    <!-- end extra -->
     <link rel="canonical" href="{{ page.url | absolute_url }}">
     <link rel="icon" href="{{ '/favicon.ico' | relative_url }}">
 
