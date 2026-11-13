@@ -1,16 +1,442 @@
-<!DOCTYPE html>
-<html lang="en-AU">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=/">
-    <meta name="robots" content="noindex">
-    <title>Redirecting...</title>
+---
+layout: default
+title: 404 — Page Not Found
+permalink: /404.html
+---
 
-    <script>
-        window.location.replace("/");
-    </script>
-</head>
-<body>
-<p>Redirecting to <a href="/">AkaneDevLabs</a>...</p>
-</body>
-</html>
+<main class="page error-page">
+
+  <section id="error-section" class="physics-object page-header">
+    <span class="page-eyebrow">404 / Not Found</span>
+
+    <h1 class="page-title">
+      Page not found.
+    </h1>
+
+    <p id="error-message" class="page-description">
+      Oops! The page you're looking for doesn't exist.
+    </p>
+  </section>
+
+  <section id="return-card" class="physics-object">
+    <h2>We know a shortcut back home.</h2>
+
+    <p>
+      Click the link below to return to the homepage
+      and continue exploring AkaneDev Labs.
+    </p>
+
+    <a href="/" class="button button-primary">
+      Return to Home →
+    </a>
+  </section>
+
+</main>
+
+<style>
+  .error-page {
+    min-height: 65vh;
+  }
+
+  #error-section {
+    max-width: 760px;
+  }
+
+  #return-card {
+    max-width: 600px;
+    padding: 25px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  #return-card h2 {
+    margin: 0 0 10px;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+
+  #return-card p {
+    margin: 0 0 20px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .physics-object {
+    will-change: transform;
+  }
+
+  body.gravity-active {
+    overflow: hidden;
+  }
+
+  body.gravity-active .physics-object {
+    cursor: grab;
+  }
+
+  body.gravity-active .physics-object.dragging {
+    cursor: grabbing;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .physics-object {
+      will-change: auto;
+    }
+  }
+</style>
+
+<script>
+  const GRAVITY_DELAY = 1500;
+
+  const GRAVITY = 0.65;
+  const FLOOR_BOUNCE = 0.25;
+  const WALL_BOUNCE = 0.55;
+
+  const AIR_FRICTION = 0.995;
+  const ROTATION_FRICTION = 0.985;
+
+  const DRAG_THRESHOLD = 6;
+
+  let objects = [];
+  let activeDrag = null;
+
+  let pointerStartX = 0;
+  let pointerStartY = 0;
+
+  let lastPointerX = 0;
+  let lastPointerY = 0;
+  let lastPointerTime = 0;
+
+  if (
+          !window.matchMedia(
+                  "(prefers-reduced-motion: reduce)"
+          ).matches
+  ) {
+    setTimeout(startGravity, GRAVITY_DELAY);
+  } else {
+    const errorMessage =
+            document.getElementById("error-message");
+
+    if (errorMessage) {
+      errorMessage.textContent =
+              "Pretend there's a cool physics simulation here. " +
+              "We respect your preference for reduced motion.";
+    }
+  }
+
+  function startGravity() {
+    document.body.classList.add("gravity-active");
+
+    const elements = [
+      document.getElementById("error-section"),
+      document.getElementById("return-card")
+    ];
+
+    for (const element of elements) {
+      if (!element) continue;
+
+      const rect = element.getBoundingClientRect();
+
+      const object = {
+        element,
+
+        x: rect.left,
+        y: rect.top,
+
+        width: rect.width,
+        height: rect.height,
+
+        velocityX: (Math.random() - 0.5) * 1.5,
+        velocityY: 0,
+
+        rotation: 0,
+        rotationVelocity: (Math.random() - 0.5) * 0.015,
+
+        dragging: false,
+        pointerId: null,
+
+        dragOffsetX: 0,
+        dragOffsetY: 0
+      };
+
+      objects.push(object);
+
+      element.style.position = "fixed";
+      element.style.left = "0px";
+      element.style.top = "0px";
+
+      element.style.width = `${rect.width}px`;
+      element.style.height = `${rect.height}px`;
+
+      element.style.margin = "0";
+      element.style.zIndex = "100";
+      element.style.transformOrigin = "center center";
+
+      element.addEventListener(
+              "pointerdown",
+              event => pointerDown(object, event)
+      );
+
+      element.addEventListener(
+              "pointermove",
+              event => pointerMove(object, event)
+      );
+
+      element.addEventListener(
+              "pointerup",
+              event => pointerUp(object, event)
+      );
+
+      element.addEventListener(
+              "pointercancel",
+              event => pointerUp(object, event)
+      );
+
+      applyTransform(object);
+    }
+
+    requestAnimationFrame(updatePhysics);
+  }
+
+  function pointerDown(object, event) {
+    if (
+            event.pointerType === "mouse" &&
+            event.button !== 0
+    ) return;
+
+    if (
+            event.target.closest(
+                    "a, button, input, textarea, select"
+            )
+    ) return;
+
+    activeDrag = object;
+    object.pointerId = event.pointerId;
+    object.dragging = false;
+
+    pointerStartX = event.clientX;
+    pointerStartY = event.clientY;
+
+    lastPointerX = event.clientX;
+    lastPointerY = event.clientY;
+    lastPointerTime = performance.now();
+
+    object.dragOffsetX = event.clientX - object.x;
+    object.dragOffsetY = event.clientY - object.y;
+  }
+
+  function pointerMove(object, event) {
+    if (
+            activeDrag !== object ||
+            object.pointerId !== event.pointerId
+    ) return;
+
+    const dx = event.clientX - pointerStartX;
+    const dy = event.clientY - pointerStartY;
+
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (!object.dragging && distance < DRAG_THRESHOLD) {
+      return;
+    }
+
+    if (!object.dragging) {
+      object.dragging = true;
+      object.element.classList.add("dragging");
+      object.element.style.zIndex = "1000";
+
+      try {
+        object.element.setPointerCapture(event.pointerId);
+      } catch (error) {}
+    }
+
+    const now = performance.now();
+    const deltaTime = Math.max(now - lastPointerTime, 1);
+
+    object.velocityX =
+            (event.clientX - lastPointerX) / deltaTime * 16.67;
+
+    object.velocityY =
+            (event.clientY - lastPointerY) / deltaTime * 16.67;
+
+    object.x = event.clientX - object.dragOffsetX;
+    object.y = event.clientY - object.dragOffsetY;
+
+    object.rotation = Math.max(
+            -0.5,
+            Math.min(0.5, object.velocityX * 0.04)
+    );
+
+    lastPointerX = event.clientX;
+    lastPointerY = event.clientY;
+    lastPointerTime = now;
+
+    applyTransform(object);
+
+    event.preventDefault();
+  }
+
+  function pointerUp(object, event) {
+    if (
+            activeDrag !== object ||
+            object.pointerId !== event.pointerId
+    ) return;
+
+    if (!object.dragging) {
+      activeDrag = null;
+      object.pointerId = null;
+      return;
+    }
+
+    object.dragging = false;
+    object.pointerId = null;
+
+    object.element.classList.remove("dragging");
+    object.element.style.zIndex = "100";
+
+    try {
+      object.element.releasePointerCapture(event.pointerId);
+    } catch (error) {}
+
+    activeDrag = null;
+  }
+
+  let lastFrameTime = performance.now();
+
+  function updatePhysics(now) {
+    const delta = Math.min(
+            (now - lastFrameTime) / 16.67,
+            2
+    );
+
+    lastFrameTime = now;
+
+    for (const object of objects) {
+      if (object.dragging) continue;
+
+      object.velocityY += GRAVITY * delta;
+
+      object.x += object.velocityX * delta;
+      object.y += object.velocityY * delta;
+
+      object.rotation += object.rotationVelocity * delta;
+
+      object.velocityX *= Math.pow(AIR_FRICTION, delta);
+      object.rotationVelocity *= Math.pow(
+              ROTATION_FRICTION,
+              delta
+      );
+    }
+
+    resolveObjectCollisions();
+
+    for (const object of objects) {
+      resolveBoundaries(object);
+      applyTransform(object);
+    }
+
+    requestAnimationFrame(updatePhysics);
+  }
+
+  function resolveObjectCollisions() {
+    for (let i = 0; i < objects.length; i++) {
+      const a = objects[i];
+
+      for (let j = i + 1; j < objects.length; j++) {
+        const b = objects[j];
+
+        if (a.dragging && b.dragging) continue;
+
+        const horizontalOverlap =
+                a.x + a.width > b.x &&
+                a.x < b.x + b.width;
+
+        if (!horizontalOverlap) continue;
+
+        const aBottom = a.y + a.height;
+        const bBottom = b.y + b.height;
+
+        if (
+                !a.dragging &&
+                a.velocityY > 0 &&
+                aBottom >= b.y &&
+                aBottom <= b.y + a.velocityY + 8
+        ) {
+          a.y = b.y - a.height;
+          a.velocityY = b.velocityY * 0.2;
+          a.velocityX *= 0.98;
+        }
+
+        if (
+                !b.dragging &&
+                b.velocityY > 0 &&
+                bBottom >= a.y &&
+                bBottom <= a.y + b.velocityY + 8
+        ) {
+          b.y = a.y - b.height;
+          b.velocityY = a.velocityY * 0.2;
+          b.velocityX *= 0.98;
+        }
+      }
+    }
+  }
+
+  function resolveBoundaries(object) {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    if (object.x < 0) {
+      object.x = 0;
+      object.velocityX =
+              Math.abs(object.velocityX) * WALL_BOUNCE;
+    }
+
+    if (object.x + object.width > width) {
+      object.x = width - object.width;
+      object.velocityX =
+              -Math.abs(object.velocityX) * WALL_BOUNCE;
+    }
+
+    if (object.y < 0) {
+      object.y = 0;
+      object.velocityY =
+              Math.abs(object.velocityY) * WALL_BOUNCE;
+    }
+
+    if (object.y + object.height > height) {
+      object.y = height - object.height;
+
+      object.velocityY =
+              -Math.abs(object.velocityY) * FLOOR_BOUNCE;
+
+      object.velocityX *= 0.97;
+      object.rotationVelocity *= 0.85;
+
+      if (Math.abs(object.velocityY) < 0.08) {
+        object.velocityY = 0;
+      }
+    }
+  }
+
+  function applyTransform(object) {
+    object.element.style.transform =
+            `translate3d(${object.x}px, ${object.y}px, 0) ` +
+            `rotate(${object.rotation}rad)`;
+  }
+
+  window.addEventListener("resize", () => {
+    for (const object of objects) {
+      const maxX = Math.max(
+              0,
+              window.innerWidth - object.width
+      );
+
+      const maxY = Math.max(
+              0,
+              window.innerHeight - object.height
+      );
+
+      object.x = Math.max(0, Math.min(object.x, maxX));
+      object.y = Math.max(0, Math.min(object.y, maxY));
+    }
+  });
+</script>

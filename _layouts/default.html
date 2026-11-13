@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'en-AU' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        {% if page.title %}
+        {{ page.title }} — {{ site.title }}
+        {% else %}
+        {{ site.title }}
+        {% endif %}
+    </title>
+
+    <meta name="description" content="{{ page.description | default: site.description | escape }}">
+    <meta name="author" content="AkaneDevLabs">
+    <meta name="theme-color" content="#09090b">
+
+    <link rel="canonical" href="{{ page.url | absolute_url }}">
+    <link rel="icon" href="{{ '/favicon.ico' | relative_url }}">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{ page.title | default: site.title | escape }}">
+    <meta property="og:description" content="{{ page.description | default: site.description | escape }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <meta property="og:image" content="{{ page.image | default: '/preview.png' | absolute_url }}">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page.title | default: site.title | escape }}">
+    <meta name="twitter:description" content="{{ page.description | default: site.description | escape }}">
+    <meta name="twitter:image" content="{{ page.image | default: '/preview.png' | absolute_url }}">
+
+    <!-- Fonts and styles -->
+    <link rel="preload" href="{{ '/fonts/Duplexide.ttf' | relative_url }}" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+
+</head>
+
+<body>
+
+<div class="site-shell">
+
+    <!-- Navigation -->
+    <header class="site-header">
+        <div class="header-inner">
+
+            <a class="brand" href="{{ '/' | relative_url }}" aria-label="AkaneDevLabs home">
+                <span class="brand-mark">ADL</span>
+                <span class="brand-name">AkaneDevLabs</span>
+            </a>
+
+            <nav class="desktop-nav" aria-label="Main navigation">
+                <a href="{{ '/' | relative_url }}">Home</a>
+                <a href="{{ '/products/' | relative_url }}">Products</a>
+                <a href="{{ '/projects/' | relative_url }}">Projects</a>
+                <a href="{{ '/published/' | relative_url}}">Published</a>
+                <a href="{{ '/computing/' | relative_url}}">Computing</a>
+                <a href="{{ '/about/' | relative_url }}">About</a>
+            </nav>
+
+            <button
+                    class="mobile-menu-toggle"
+                    type="button"
+                    aria-label="Toggle navigation"
+                    aria-expanded="false"
+                    aria-controls="mobile-nav"
+            >
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+
+        <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
+            <a href="{{ '/' | relative_url }}">Home</a>
+            <a href="{{ '/products/' | relative_url }}">Products</a>
+            <a href="{{ '/projects/' | relative_url }}">Projects</a>
+            <a href="{{ '/published/' | relative_url}}">Published</a>
+            <a href="{{ /computing/ | relative_url}}">Computing</a>
+            <a href="{{ '/about/' | relative_url }}">About</a>
+        </nav>
+    </header>
+
+    <!-- Page content -->
+    <main class="site-main">
+        {{ content }}
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+
+        <div class="footer-inner">
+
+            <div class="footer-brand">
+                <span class="footer-brand-name">AkaneDevLabs</span>
+                <p>Independent software development.</p>
+            </div>
+
+            <div class="footer-meta">
+                <span>&copy; {{ site.time | date: "%Y" }} AkaneDevLabs</span>
+                <span>ABN: 22 734 202 716</span>
+                <span>Built by AkaneDev</span>
+            </div>
+
+        </div>
+
+    </footer>
+
+</div>
+
+<script>
+    const menuButton = document.querySelector('.mobile-menu-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
+
+    menuButton.addEventListener('click', () => {
+        const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+
+        menuButton.setAttribute('aria-expanded', String(!expanded));
+        mobileNav.hidden = expanded;
+    });
+</script>
+
+</body>
+</html>

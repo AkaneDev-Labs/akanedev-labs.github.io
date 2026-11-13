@@ -1,0 +1,70 @@
+---
+layout: default
+---
+
+<main class="product-page">
+
+    <header class="product-header">
+
+        {% if page.category %}
+        <p class="product-category">{{ page.category }}</p>
+        {% endif %}
+
+        <h1>{{ page.title }}</h1>
+
+        {% if page.description %}
+        <p>{{ page.description }}</p>
+        {% endif %}
+
+    </header>
+
+    {% if page.image %}
+    <img
+            class="product-image"
+            src="{{ page.image | relative_url }}"
+            alt="{{ page.title }}"
+    >
+    {% endif %}
+
+    <article class="product-content">
+
+        {% if page.price %}
+        <section class="product-price">
+            <span>{{ page.price }}</span>
+
+            {% if page.currency %}
+            <span>{{ page.currency }}</span>
+            {% endif %}
+        </section>
+        {% endif %}
+
+        {{ content }}
+
+    </article>
+
+    {% if page.checkout_url %}
+    <a class="product-purchase" href="{{ page.checkout_url }}">
+        Purchase Service →
+    </a>
+    {% endif %}
+
+    {% if page.requirements %}
+    <section class="product-requirements">
+        <h2>Requirements</h2>
+
+        <ul>
+            {% for requirement in page.requirements %}
+            <li>{{ requirement }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if page.additional_info %}
+    <section class="product-additional-info">
+        <h2>Additional Information</h2>
+        <p>{{ page.additional_info }}</p>
+    </section>
+    {% endif %}
+
+</main>

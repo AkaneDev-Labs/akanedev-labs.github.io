@@ -10,3 +10,11 @@ collections:
   products:
     output: true
     permalink: /products/:name/
+
+  projects:
+    output: true
+    permalink: /projects/:name/
+
+  published:
+      output: true
+      permalink: /published/:name/

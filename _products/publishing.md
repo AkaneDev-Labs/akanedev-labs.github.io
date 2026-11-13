@@ -1,12 +1,14 @@
 ---
 layout: product
 title: Minecraft Mod Publishing
-description: Let us handle the publishing of your Minecraft mod to supported platforms.
+description: We handle publishing your Minecraft mod to supported platforms, so you can focus on development.
 category: Minecraft Services
 price: "$20"
 currency: AUD
 checkout_url: "https://buy.stripe.com/dRm3cw4EZ3K08To8CSao801"
 image: "/images/products/mod-publishing.png"
+
+featured: true
 
 requirements:
   - You must have an account on the platform(s) you want your mod published to.

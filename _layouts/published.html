@@ -1,10 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+---
+layout: default
+---
+
+<article class="page published-page">
+
+    <header class="page-header">
+        <p class="page-eyebrow">PUBLISHED BY AKANEDEV LABS</p>
+
+        <h1 class="page-title">{{ page.title }}</h1>
+
+        {% if page.project_type %}
+        <p class="page-description">{{ page.project_type }}</p>
+        {% endif %}
+    </header>
+
+    <div class="published-details">
+
+        {% if page.developer %}
+        <div class="published-detail">
+            <span>Developer</span>
+            <strong>{{ page.developer }}</strong>
+        </div>
+        {% endif %}
+
+        {% if page.date_published %}
+        <div class="published-detail">
+            <span>Published</span>
+            <strong>{{ page.date_published | date: "%d %B %Y" }}</strong>
+        </div>
+        {% endif %}
+
+        {% if page.price %}
+        <div class="published-detail">
+            <span>Price</span>
+            <strong>{{ page.price }}</strong>
+        </div>
+        {% endif %}
+
+    </div>
+
+    {% if page.links.size > 0 %}
+    <div class="published-links">
+        <h2>Links</h2>
+
+        {% for link in page.links %}
+        {% if forloop.first == false %} | {% endif %}
+        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="published-link">
+            {{ link.name }}
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="page-content published-content">
+        {{ content }}
+    </div>
+
+</article>
