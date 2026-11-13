@@ -1,5 +1,5 @@
 (() => {
-    const CHECK_INTERVAL = 60_000;
+    const CHECK_INTERVAL = 1_000;
     const VERSION_URL = "/version.json";
     const CHANNEL_NAME = "akanedev-site-updates";
 
@@ -35,6 +35,8 @@
 
             if (!response.ok) return;
 
+            console.log("Checking for updates...");
+
             const data = await response.json();
 
             if (currentVersion === null) {
@@ -43,6 +45,7 @@
             }
 
             if (data.build !== currentVersion) {
+                console.log("Site Updated Found!")
                 channel?.postMessage({
                     type: "site-update",
                     version: data.build
