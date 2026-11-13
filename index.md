@@ -9,7 +9,7 @@ description: Independent software development. Building games, engines, tools, a
     <div class="hero-content">
 
         <h1>
-            AkaneDevLabs
+            AkaneDev Labs
         </h1>
 
         <p class="hero-description">
